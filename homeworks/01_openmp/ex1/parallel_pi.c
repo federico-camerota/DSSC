@@ -25,7 +25,7 @@ double approx_pi(size_t N){
 int main(){
 
     double start_time = omp_get_wtime();
-    double pi = approx_pi(10000000);
+    double pi = approx_pi(10000000000);
     double end_time = omp_get_wtime();
     printf("pi = %lf (%lf seconds)\n",pi, (end_time - start_time));
 }
