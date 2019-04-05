@@ -14,5 +14,5 @@ scheduling modes:
 * `dynamic` with chunk size 10
 
 ### Compiling
-To compile both versions of the program run `make`, to compile only one of the two versions run
-`make serial` or `make parallel`. Two binary files will be created corresponding to each version.
+To compile both versions of the program run `make`, to compile only one of the two
+versions run `make serial` or `make parallel`.
