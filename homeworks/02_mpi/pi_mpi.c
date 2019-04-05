@@ -23,7 +23,7 @@ int main(int argc, char* argv[]){
 
 
     //number of breaks in the [0,1] interval
-    size_t N = 10000000000;
+    size_t N = 10000;
     double h_2 = (1.0/N)/2;
 
     MPI_Init(&argc, &argv);
@@ -45,21 +45,22 @@ int main(int argc, char* argv[]){
 	end_val = N;
 
     double local_pi = 0.0;
+    double global_pi = 0.0;
     for (size_t i = init_val; i < end_val; ++i)
 	local_pi += 1.0/(1.0 + (2*i + 1)*h_2*(2*i+1)*h_2);
 
     elapsed = seconds() - start_time;
-    MPI_Reduce(&local_pi, &local_pi, 1, MPI_DOUBLE, MPI_SUM, size - 1, MPI_COMM_WORLD);
+    MPI_Reduce(&local_pi, &global_pi, 1, MPI_DOUBLE, MPI_SUM, size - 1, MPI_COMM_WORLD);
 
     if (rank == size - 1){
-	local_pi = 4*local_pi*2*h_2;
-	MPI_Send(&local_pi, 1, MPI_DOUBLE, 0, 101, MPI_COMM_WORLD);
+	global_pi = 4*global_pi*2*h_2;
+	MPI_Send(&global_pi, 1, MPI_DOUBLE, 0, 101, MPI_COMM_WORLD);
 	MPI_Send(&elapsed, 1, MPI_DOUBLE, 0, 101, MPI_COMM_WORLD);
     }
     if (rank == 0){
-	MPI_Recv(&local_pi, 1,  MPI_DOUBLE, size - 1, 101, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+	MPI_Recv(&global_pi, 1,  MPI_DOUBLE, size - 1, 101, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 	MPI_Recv(&elapsed, 1,  MPI_DOUBLE, size - 1, 101, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-	printf("From process %d, computed value of pi is %lf (elapsed %lf seconds)\n", rank, local_pi);
+	printf("From process %d, computed value of pi is %lf (elapsed %lf seconds)\n", rank, global_pi, elapsed);
     }
 
     MPI_Finalize();
