@@ -10,8 +10,9 @@ double approx_pi(size_t N){
     {
 	double local_pi = 0.0;
 
+	size_t i;
 	#pragma omp for schedule(static)
-	for (size_t i = 0; i < N; ++i)
+	for (i = 0; i < N; ++i)
 	    local_pi += 1.0/(1.0 + (2*i + 1)*h_2*(2*i+1)*h_2);
 
 	//#pragma omp atomic //<-- To use omp atomic
