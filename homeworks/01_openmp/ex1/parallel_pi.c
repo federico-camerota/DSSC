@@ -1,6 +1,23 @@
 #include <stdio.h>
 #include <omp.h>
+#include <sys/time.h>
+#include <sys/resource.h>
+#include <unistd.h>
 
+double seconds()
+
+/* Return the second elapsed since Epoch (00:00:00 UTC, January 1, 1970)                                                                     
+ */
+
+{
+
+  struct timeval tmp;
+  double sec;
+  gettimeofday( &tmp, (struct timezone *)0 );
+  sec = tmp.tv_sec + ((double)tmp.tv_usec)/1000000.0;
+  return sec;
+
+}
 double approx_pi(size_t N){
 
     double h_2 = (1.0/N)/2;
@@ -25,8 +42,8 @@ double approx_pi(size_t N){
 
 int main(){
 
-    double start_time = omp_get_wtime();
+    double start_time = seconds();
     double pi = approx_pi(10000000000);
-    double end_time = omp_get_wtime();
+    double end_time = seconds();
     printf("pi = %lf (%lf seconds)\n",pi, (end_time - start_time));
 }

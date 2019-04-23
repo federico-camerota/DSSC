@@ -23,13 +23,11 @@ int main(int argc, char* argv[]){
 
 
     //number of breaks in the [0,1] interval
-    size_t N = 10000;
+    size_t N = 10000000000;
     double h_2 = (1.0/N)/2;
 
     MPI_Init(&argc, &argv);
 
-    double start_time = seconds();
-    double elapsed;
     int size = 0;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     int rank = 0;
@@ -44,13 +42,16 @@ int main(int argc, char* argv[]){
     if (rank == size - 1)
 	end_val = N;
 
+    double start_time = seconds();
+    double elapsed;
+
     double local_pi = 0.0;
     double global_pi = 0.0;
     for (size_t i = init_val; i < end_val; ++i)
 	local_pi += 1.0/(1.0 + (2*i + 1)*h_2*(2*i+1)*h_2);
 
-    elapsed = seconds() - start_time;
     MPI_Reduce(&local_pi, &global_pi, 1, MPI_DOUBLE, MPI_SUM, size - 1, MPI_COMM_WORLD);
+    elapsed = seconds() - start_time;
 
     if (rank == size - 1){
 	global_pi = 4*global_pi*2*h_2;

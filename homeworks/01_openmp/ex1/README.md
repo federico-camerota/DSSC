@@ -27,3 +27,7 @@ running the program using a number of threads ranging from 1 to 20.
 As can be seen in the above image, the time to result is pretty much the same in
 all the three cases. However, we can appreciate the fact that they scale well as
 the number of threads is increased.
+
+### Compiling
+To compile both versions of the program run `make`, to compile only one of the two
+versions run `make serial` or `make parallel`.
