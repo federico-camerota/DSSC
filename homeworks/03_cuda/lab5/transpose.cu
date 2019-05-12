@@ -5,8 +5,10 @@ __global__ void transpose_matrix(int** mat, int **tran, const size_t rows, const
 
     size_t i = blockIdx.x; 
     size_t j = threadIdx.x;
-    if (i < rows && j < cols)
+    while (i < cols) {
 	tran[j][i] = mat[i][j]; 
+	i += blockDim.x;
+    }
 }
 
 void fill_mat(int **mat, const size_t rows, const size_t cols);
@@ -24,13 +26,11 @@ int main(){
     int **dev_mat, **dev_transp;
     cudaMalloc((void***) &dev_mat, N*sizeof(int *));
     for (i = 0; i < N; ++i)
-	cudaMalloc((void**) &(mat[i]), M*sizeof(int));
-    cudaMemcpy(&dev_mat, &mat, N, cudaMemcpyHostToDevice);
+	cudaMalloc((void**) &(dev_mat[i]), M*sizeof(int));
 
     cudaMalloc((void***) &dev_transp, M*sizeof(int *));
     for (i = 0; i < M; ++i)
-	cudaMalloc((void**) &(transp[i]), N*sizeof(int));
-    cudaMemcpy(&dev_transp, &transp, M, cudaMemcpyHostToDevice);
+	cudaMalloc((void**) &(dev_transp[i]), N*sizeof(int));
 
     for (i = 0; i < N; ++i)
 	mat[i] = (int *) calloc(M, sizeof(int));
@@ -76,3 +76,19 @@ void print_mat(int **mat, const size_t rows, const size_t cols){
        putchar('\n');
     }
 }
+
+
+//
+//Alternative
+//
+//__global__ mat_transp (double *m_in, double *m_out){
+//
+//    y = blockIdx.x;
+//    x = threadIdx.x;
+//
+//    while (x < N){
+//    
+//	m_out[y*N + x] = m_in[x*N + y];
+//	x += blockDim.x;
+//    }
+//}
