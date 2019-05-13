@@ -20,7 +20,7 @@ double seconds()
 }
 double approx_pi(size_t N){
 
-    double h_2 = (1.0/N)/2;
+    double h = (1.0/N);
     double pi = 0.0;
 
     #pragma omp parallel //reduction(+:pi) //<-- To use omp reduction
@@ -29,8 +29,9 @@ double approx_pi(size_t N){
 
 	size_t i;
 	#pragma omp for schedule(static)
-	for (i = 0; i < N; ++i)
-	    local_pi += 1.0/(1.0 + (2*i + 1)*h_2*(2*i+1)*h_2);
+	for (i = 0; i < N; ++i){
+	    double x = (i + 1/2)*h;
+	    local_pi += 1.0/(1.0 + x*x);
 
 	//#pragma omp atomic //<-- To use omp atomic
 	#pragma omp critical //<-- To use omp critical
