@@ -19,3 +19,6 @@ OpenMP, respectively.
 ![mpi_vs_openmp](mpi_vs_openmp.jpg)
 As we can see from the plot the MPI implementation seems to be faster than the
 other one.
+
+## Compiling 
+To compile the program just call `make`.
