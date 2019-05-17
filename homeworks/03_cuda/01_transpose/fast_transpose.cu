@@ -4,7 +4,7 @@
 #include <sys/resource.h>
 
 # define N 8192
-# define N_THRDS 1024
+# define N_THRDS 256
 
 
 __global__ void init_mat (size_t *A_array, size_t **A, const size_t cols){
@@ -89,26 +89,6 @@ int main() {
   cudaMemcpy( transp_array, dev_transp_array, N*N*sizeof(size_t),   cudaMemcpyDeviceToHost );
 
   printf("Fast transpose result is: %d (%lf seconds)\n", is_transpose(mat_array, transp_array, N), elapsed);
-
-//  printf("Matrix:\n");
-//  size_t i;
-//  for(i=0;i<N*N;i++){
-//    if(i%N==0 && i!=0)printf("\n");
-//      printf("%d ", mat_array[i]);
-//  }
-//  printf("\n");
-//
-//  printf("Transpose:\n");
-//  for(i=0;i<N*N;i++){
-//    if(i%N==0 && i!=0)printf("\n");
-//
-//printf("%d ", transp_array[i]);
-//  }
-//  printf("\n");
-//
-
-    
- // print_is_transpose(mat_array, transp_array, N);
 
   free(mat_array); free(transp_array);
   cudaFree( dev_mat_array ); cudaFree( dev_transp_array ); cudaFree(dev_mat);cudaFree(dev_transp);
