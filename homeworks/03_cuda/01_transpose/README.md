@@ -14,3 +14,5 @@ It can be seen that the fast transpose algorithm is faster than the naive.
 Furthermore, we can observe that for the former one the best value for the number
 of threads in a block seems to be in the middle between 64 and 1024 while for the
 latter one the best value appears to be 64.
+
+Considering that the average execution time of the fast transpose algorithm using 

@@ -124,9 +124,9 @@ int is_transpose(size_t *mat, size_t *transp, const size_t n){
     
     size_t i, j;
     for (i = 0; i < n; ++i)
-    for (j = 0; j < n; ++j)
-        if (mat[i*n + j] != transp[j*n + i])
-	return 0;
+	for (j = i + 1; j < n; ++j)
+	    if (mat[i*n + j] != transp[j*n + i])
+		return 0;
     return 1;
 }
 void print_is_transpose(size_t *mat, size_t *transp, const size_t n){
