@@ -31,12 +31,11 @@ __global__ void fast_transpose(size_t **A, size_t **B, const size_t dim){
 
     __shared__ size_t a_block[N_THRDS];
 
-    size_t i = threadIdx.y*dim + threadIdx.x;
-    a_block[i] = A[dim*blockIdx.y + i/dim][dim*blockIdx.x + i%dim];
+    a_block[threadIdx.y*dim + threadIdx.x] = A[dim*blockIdx.y + threadIdx.y][dim*blockIdx.x + threadIdx.x];
 
     __syncthreads();
 
-    B[dim*blockIdx.x + i/dim][dim*blockIdx.y + i%dim]= a_block[dim*threadIdx.x + threadIdx.y];
+    B[dim*blockIdx.x + threadIdx.y][dim*blockIdx.y + threadIdx.x]= a_block[dim*threadIdx.x + threadIdx.y];
 }
 
 void fill_mat(size_t *mat, const size_t rows, const size_t cols);
