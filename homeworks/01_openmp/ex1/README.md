@@ -16,7 +16,7 @@ The `omp critical` section is used to specify operations that must be performed
 sequentially by threads to avoid data corruption. However, this is a quite
 general block that can be used with any kind of operation. `omp atomic` on the
 other hand supports only a set of limited operations and exploits hardware
-capabilities to ensure data integrity. The last approach, `omp reduction`, instead
+capabilities to ensure data integrity. The last approach, `omp reduction`, 
 uses local partial results for each thread that are combined at the end of the
 parallel section using the specified reduction operation.
 
@@ -24,8 +24,8 @@ To observe the different behavior of each approach we tested their scalability
 running the program using a number of threads ranging from 1 to 20.
 ![scaling](data_race.jpg)
 
-As can be seen in the above image, the time to result is pretty much the same in
-all the three cases. However, we can appreciate the fact that they scale well as
+As can be seen, the time to result is pretty much the same in the three cases.
+ However, we can appreciate the fact that they scale pretty well as
 the number of threads is increased.
 
 ### Compiling
