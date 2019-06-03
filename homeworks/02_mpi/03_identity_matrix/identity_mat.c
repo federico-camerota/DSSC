@@ -47,6 +47,9 @@ int main (int argc, char **argv){
 
 	    print_submatrix(local_mat, limit, N, output_file);
 	}
+
+	if (N >= 10)
+	    fclose(output_file);
     }
     else{
     

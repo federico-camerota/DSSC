@@ -47,8 +47,10 @@ int main(int argc, char* argv[]){
 
     double local_pi = 0.0;
     double global_pi = 0.0;
-    for (size_t i = init_val; i < end_val; ++i)
-	local_pi += 1.0/(1.0 + (2*i + 1)*h_2*(2*i+1)*h_2);
+    for (size_t i = init_val; i < end_val; ++i){
+	double x = (2*i +1)*h_2;
+	local_pi += 1.0/(1.0 + x*x);
+    }
 
     MPI_Reduce(&local_pi, &global_pi, 1, MPI_DOUBLE, MPI_SUM, size - 1, MPI_COMM_WORLD);
     elapsed = seconds() - start_time;

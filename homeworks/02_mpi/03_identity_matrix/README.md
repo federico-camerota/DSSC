@@ -1,4 +1,4 @@
-# Identity matrix
+#Identity matrix
 
 In this exercise we initialize an identity matrix distributed among processes and
 then use the process with rank 0 in the `MPI_COMM_WORLD` communicator to print it
