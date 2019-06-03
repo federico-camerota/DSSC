@@ -12,7 +12,7 @@ int main(){
     #pragma omp parallel 
     {
 
-	#pragma omp master
+	#pragma omp single
 	{
 	    nthreads = omp_get_num_threads();
 	}
